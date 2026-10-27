@@ -10,5 +10,8 @@ ENV POSTGRES_DB=chinook
 # Runs once, on first start of an empty data directory.
 COPY init.sql /docker-entrypoint-initdb.d/
 
+# Restores the seed data in place: docker exec <container> chinook-reset
+COPY --chmod=755 reset.sh /usr/local/bin/chinook-reset
+
 HEALTHCHECK --interval=10s --timeout=5s --start-period=30s --retries=5 \
     CMD pg_isready -U "${POSTGRES_USER:-postgres}" -d "${POSTGRES_DB}" || exit 1
