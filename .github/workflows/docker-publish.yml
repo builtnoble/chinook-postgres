@@ -36,13 +36,16 @@ jobs:
         uses: docker/metadata-action@v5
         with:
           images: ${{ env.DOCKER_IMAGE }}
+          # Pushes to main publish a moving "edge" tag; "latest" only moves on a stable v* release tag.
+          flavor: |
+            latest=false
           tags: |
-            type=ref,event=branch
+            type=edge
             type=ref,event=pr
             type=semver,pattern={{version}}
             type=semver,pattern={{major}}.{{minor}}
             type=semver,pattern={{major}}
-            type=raw,value=latest,enable={{is_default_branch}}
+            type=raw,value=latest,enable=${{ startsWith(github.ref, 'refs/tags/v') && !contains(github.ref, '-') }}
       
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
