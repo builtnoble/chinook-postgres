@@ -116,6 +116,6 @@ Published version tags are never moved or deleted; a bad release is fixed with a
 ## License
 
 By contributing, you agree that your contributions are licensed under the repository's
-[MIT License](../LICENSE). `init.sql` is derived from the upstream Chinook database; see
-[THIRD_PARTY_NOTICES.md](../THIRD_PARTY_NOTICES.md) before copying material from other sources, and don't
+[MIT License](LICENSE). `init.sql` is derived from the upstream Chinook database; see
+[THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) before copying material from other sources, and don't
 add content whose license isn't compatible with MIT.
