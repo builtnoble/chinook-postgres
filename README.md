@@ -119,4 +119,12 @@ With Docker Compose, declare a named volume on the `db` service and use `docker 
 
 ## License
 
-This project is provided as-is for educational and development purposes.
+The code in this repository (Dockerfile, scripts, tests and workflows) is released under the
+[MIT License](LICENSE).
+
+The schema and sample data in `init.sql` are derived from the
+[Chinook database](https://github.com/lerocha/chinook-database) by Luis Rocha, also MIT-licensed; its
+notice is reproduced in [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md). The image is built on the
+official `postgres` image, whose software remains under its own licenses.
+
+Both license files are included in the image at `/usr/share/licenses/chinook-postgres/`.
