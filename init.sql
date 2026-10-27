@@ -130,16 +130,16 @@ ALTER TABLE invoices ADD CONSTRAINT invoice_customer_id_fkey
     FOREIGN KEY (customer_id) REFERENCES customers (id) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 ALTER TABLE invoice_lines ADD CONSTRAINT invoice_line_invoice_id_fkey
-    FOREIGN KEY (invoice_id) REFERENCES invoices (id) ON DELETE NO ACTION ON UPDATE NO ACTION;
+    FOREIGN KEY (invoice_id) REFERENCES invoices (id) ON DELETE CASCADE ON UPDATE NO ACTION;
 
 ALTER TABLE invoice_lines ADD CONSTRAINT invoice_line_track_id_fkey
     FOREIGN KEY (track_id) REFERENCES tracks (id) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 ALTER TABLE playlist_tracks ADD CONSTRAINT playlist_track_playlist_id_fkey
-    FOREIGN KEY (playlist_id) REFERENCES playlists (id) ON DELETE NO ACTION ON UPDATE NO ACTION;
+    FOREIGN KEY (playlist_id) REFERENCES playlists (id) ON DELETE CASCADE ON UPDATE NO ACTION;
 
 ALTER TABLE playlist_tracks ADD CONSTRAINT playlist_track_track_id_fkey
-    FOREIGN KEY (track_id) REFERENCES tracks (id) ON DELETE NO ACTION ON UPDATE NO ACTION;
+    FOREIGN KEY (track_id) REFERENCES tracks (id) ON DELETE CASCADE ON UPDATE NO ACTION;
 
 ALTER TABLE tracks ADD CONSTRAINT track_album_id_fkey
     FOREIGN KEY (album_id) REFERENCES albums (id) ON DELETE NO ACTION ON UPDATE NO ACTION;
