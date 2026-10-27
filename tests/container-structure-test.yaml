@@ -9,6 +9,8 @@ metadataTest:
       value: chinook-postgres
     - key: org.opencontainers.image.source
       value: https://github.com/builtnoble/chinook-postgres
+    - key: org.opencontainers.image.licenses
+      value: MIT
   exposedPorts: ["5432"]
   volumes: ["/var/lib/postgresql/data"]
   entrypoint: ["docker-entrypoint.sh"]
@@ -22,6 +24,12 @@ fileExistenceTests:
     path: /usr/local/bin/chinook-reset
     shouldExist: true
     permissions: "-rwxr-xr-x"
+  - name: license is included
+    path: /usr/share/licenses/chinook-postgres/LICENSE
+    shouldExist: true
+  - name: upstream Chinook notice is included
+    path: /usr/share/licenses/chinook-postgres/THIRD_PARTY_NOTICES.md
+    shouldExist: true
 
 commandTests:
   - name: postgres 16 is installed
