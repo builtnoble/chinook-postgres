@@ -7,6 +7,9 @@ A Docker image for PostgreSQL with the Chinook sample database pre-configured.
 - Based on PostgreSQL 16 Alpine
 - Normalized Chinook database schema and sample data included
 - Configurable database name via environment variable
+- Writable: auto-generated ids with sequences synced to the seed data
+- One-command reset back to the seed data
+- Built-in healthcheck (`pg_isready`)
 
 ## Quick Start
 
@@ -74,6 +77,45 @@ The Chinook database includes tables for:
 - And more...
 
 See `init.sql` for the complete schema and sample data.
+
+### Writing data and deletes
+
+Every table has an auto-generated `id` (`SERIAL`), except `playlist_tracks`, whose key is
+`(playlist_id, track_id)`. The sequences start after the seeded rows, so inserts need no explicit id.
+
+Foreign keys are `ON DELETE NO ACTION` (deletes fail while child rows exist), except for child rows
+that have no meaning without their parent, which cascade:
+
+| Deleting...  | Also deletes...                         |
+| ------------ | --------------------------------------- |
+| a playlist   | its `playlist_tracks` rows              |
+| a track      | its `playlist_tracks` rows              |
+| an invoice   | its `invoice_lines` rows                |
+
+Deleting an artist that still has albums, an album that still has tracks, or a track that appears on an
+invoice line fails with a foreign key error.
+
+## Resetting the data
+
+Data written to the database persists for as long as the data volume does. To get back to the seed data
+there are two options.
+
+**Reset in place** (keeps the container and volume; leaves any non-Chinook tables, such as auth tables,
+alone):
+
+```bash
+docker exec chinook-db chinook-reset
+```
+
+**Recreate the volume** (wipes everything and re-runs `init.sql` on next start). Mount a named volume
+so the data survives container restarts, and remove it to start over:
+
+```bash
+docker run -d --name chinook-db -v chinook-data:/var/lib/postgresql/data ... builtnoble/chinook-postgres:latest
+docker rm -f chinook-db && docker volume rm chinook-data
+```
+
+With Docker Compose, declare a named volume on the `db` service and use `docker compose down -v`.
 
 ## License
 
