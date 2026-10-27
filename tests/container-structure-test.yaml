@@ -1,0 +1,34 @@
+schemaVersion: 2.0.0
+
+metadataTest:
+  envVars:
+    - key: POSTGRES_DB
+      value: chinook
+  labels:
+    - key: org.opencontainers.image.title
+      value: chinook-postgres
+    - key: org.opencontainers.image.source
+      value: https://github.com/builtnoble/chinook-postgres
+  exposedPorts: ["5432"]
+  volumes: ["/var/lib/postgresql/data"]
+  entrypoint: ["docker-entrypoint.sh"]
+  cmd: ["postgres"]
+
+fileExistenceTests:
+  - name: seed script is in the init directory
+    path: /docker-entrypoint-initdb.d/init.sql
+    shouldExist: true
+  - name: reset script is installed and executable
+    path: /usr/local/bin/chinook-reset
+    shouldExist: true
+    permissions: "-rwxr-xr-x"
+
+commandTests:
+  - name: postgres 16 is installed
+    command: postgres
+    args: ["--version"]
+    expectedOutput: ["PostgreSQL\\) 16\\."]
+  - name: psql is available for the reset script
+    command: psql
+    args: ["--version"]
+    expectedOutput: ["PostgreSQL\\) 16\\."]
