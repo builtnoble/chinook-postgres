@@ -14,4 +14,4 @@ COPY init.sql /docker-entrypoint-initdb.d/
 COPY --chmod=755 reset.sh /usr/local/bin/chinook-reset
 
 HEALTHCHECK --interval=10s --timeout=5s --start-period=30s --retries=5 \
-    CMD pg_isready -U "${POSTGRES_USER:-postgres}" -d "${POSTGRES_DB}" || exit 1
+    CMD ["sh", "-c", "pg_isready -U \"${POSTGRES_USER:-postgres}\" -d \"${POSTGRES_DB}\" || exit 1"]
