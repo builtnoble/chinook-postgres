@@ -114,6 +114,8 @@ CREATE TABLE IF NOT EXISTS tracks
     milliseconds INT NOT NULL,
     bytes INT,
     unit_price NUMERIC(10,2) NOT NULL,
+    -- Not part of upstream Chinook. Always NULL in the seed; set it to soft-delete a track instead of removing the row.
+    deleted_at TIMESTAMP,
     CONSTRAINT tracks_pkey PRIMARY KEY (id)
 );
 
