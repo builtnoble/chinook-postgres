@@ -3,6 +3,8 @@ CREATE TABLE IF NOT EXISTS albums
     id SERIAL NOT NULL,
     title VARCHAR(255) NOT NULL,
     artist_id INT NOT NULL,
+    -- Not part of upstream Chinook. Always NULL in the seed; see tracks.deleted_at.
+    deleted_at TIMESTAMP,
     CONSTRAINT albums_pkey PRIMARY KEY (id)
 );
 
@@ -10,6 +12,8 @@ CREATE TABLE IF NOT EXISTS artists
 (
     id SERIAL NOT NULL,
     name VARCHAR(255) NOT NULL,
+    -- Not part of upstream Chinook. Always NULL in the seed; see tracks.deleted_at.
+    deleted_at TIMESTAMP,
     CONSTRAINT artists_pkey PRIMARY KEY (id)
 );
 
@@ -55,6 +59,8 @@ CREATE TABLE IF NOT EXISTS genres
 (
     id SERIAL NOT NULL,
     name VARCHAR(255) NOT NULL,
+    -- Not part of upstream Chinook. Always NULL in the seed; see tracks.deleted_at.
+    deleted_at TIMESTAMP,
     CONSTRAINT genres_pkey PRIMARY KEY (id)
 );
 
@@ -86,6 +92,8 @@ CREATE TABLE IF NOT EXISTS media_types
 (
     id SERIAL NOT NULL,
     name VARCHAR(255) NOT NULL,
+    -- Not part of upstream Chinook. Always NULL in the seed; see tracks.deleted_at.
+    deleted_at TIMESTAMP,
     CONSTRAINT media_types_pkey PRIMARY KEY (id)
 );
 

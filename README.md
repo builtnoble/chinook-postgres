@@ -95,12 +95,14 @@ that have no meaning without their parent, which cascade:
 Deleting an artist that still has albums, an album that still has tracks, or a track that appears on an
 invoice line fails with a foreign key error.
 
-#### Soft-deleting tracks
+#### Soft deletes
 
-`tracks` has one column that is not in upstream Chinook: `deleted_at TIMESTAMP`, `NULL` in the seed. Set it to
-mark a track as deleted without removing the row, so invoice lines that refer to the track stay valid. Nothing in the
-database reads it; whatever queries the tracks decides whether to leave deleted ones out. A volume created from an
-earlier image does not have the column (`init.sql` only runs on an empty volume), and `chinook-reset` adds it.
+`tracks`, `albums`, `artists`, `genres` and `media_types` have one column that is not in upstream Chinook:
+`deleted_at TIMESTAMP`, `NULL` in the seed. Set it to mark a row as deleted without removing it, so rows that refer to
+it, such as invoice lines that refer to a track, stay valid. Nothing in the database reads it; whatever queries these
+tables decides whether to leave deleted rows out. Only 1.1 and later have it on `tracks`, and only 1.2 and later on the
+other four. A volume created from an earlier image does not have the columns (`init.sql` only runs on an empty
+volume), and `chinook-reset` adds them.
 
 ## Resetting the data
 
